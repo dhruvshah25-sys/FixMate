@@ -1,0 +1,55 @@
+
+{% extends "base.html" %}
+
+{% block title %}Request a Repair | FixMate{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <a href="/consumer" class="back-link">← Consumer dashboard</a>
+        <p class="eyebrow">FIND THE RIGHT PROFESSIONAL</p>
+        <h1 class="auth-title">What needs fixing?</h1>
+        <p class="auth-subtitle">Tell us about your repair so we can match you with suitable providers.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST">
+            <label for="category">Repair category</label>
+            <select id="category" name="category" required>
+                <option value="">Choose a service</option>
+                {% for item in categories %}
+                    <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="description">Describe the problem</label>
+            <textarea id="description" name="description" rows="3"
+                      placeholder="Explain what needs repair..." required></textarea>
+
+            <label for="budget_min">Minimum budget (₹)</label>
+            <input id="budget_min" name="budget_min" type="number"
+                   min="0" step="1" value="0" required>
+
+            <label for="budget_max">Maximum budget (₹)</label>
+            <input id="budget_max" name="budget_max" type="number"
+                   min="1" step="1" placeholder="e.g. 1500" required>
+
+            <label for="service_area">Your locality</label>
+            <input id="service_area" name="service_area"
+                   placeholder="e.g. Malad, Mumbai" required>
+
+            <label for="preferred_date">Preferred service date</label>
+            <input id="preferred_date" name="preferred_date"
+                   type="date" required>
+
+            <button class="btn auth-submit" type="submit">
+                Find matching providers →
+            </button>
+        </form>
+    </div>
+</section>
+{% endblock %}

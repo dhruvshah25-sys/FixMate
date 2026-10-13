@@ -1,0 +1,70 @@
+
+{% extends "base.html" %}
+
+{% block title %}Matching Providers | FixMate{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-heading">
+        <p class="eyebrow">YOUR MATCH RESULTS</p>
+        <h1>Professionals for your repair</h1>
+        <p>Matches are ranked by service, budget, and locality.</p>
+        {% if already_booked %}
+            <p class="flash success">This repair request has already been booked.</p>
+        {% endif %}
+    </div>
+
+    <div class="service-grid">
+        {% for provider in providers %}
+        <article class="service-card">
+            <p class="eyebrow">{{ provider.category }}</p>
+            <h2>{{ provider.name }}</h2>
+            <p>{{ provider.description or 'Experienced local service professional.' }}</p>
+            <p><strong>Price:</strong> ₹{{ "%.2f"|format(provider.price) }}</p>
+            <p><strong>Experience:</strong> {{ provider.experience_years }} years</p>
+            <p><strong>Service area:</strong> {{ provider.service_area }}</p>
+            <p><strong>Match score:</strong> {{ provider.match_score }}%</p>
+            {% if provider.review_count %}
+                <p><strong>Rating:</strong> {{ "%.1f"|format(provider.average_rating) }} / 5
+                    ({{ provider.review_count }} {{ 'review' if provider.review_count == 1 else 'reviews' }})</p>
+            {% else %}
+                <p><strong>Rating:</strong> No reviews yet</p>
+            {% endif %}
+
+            {% if provider.match_score >= 70 %}
+                <span class="flash success">Strong match</span>
+            {% else %}
+                <span class="flash">Possible match</span>
+            {% endif %}
+
+            {% if already_booked %}
+                <p class="flash success">Already booked</p>
+            {% else %}
+                <form method="POST"
+                      onsubmit="this.querySelector('button[type=submit]').disabled = true;"
+                      action="{{ url_for('book_provider', request_id=request_id, provider_id=provider.id) }}">
+                    <button class="btn auth-submit" type="submit">
+                        Select provider
+                    </button>
+                </form>
+            {% endif %}
+        </article>
+        {% else %}
+        <div class="auth-card">
+            {% if already_booked %}
+                <h2>This repair request has already been booked.</h2>
+                <a class="btn" href="{{ url_for('my_bookings') }}">View My Bookings</a>
+            {% else %}
+                <h2>No matching providers found yet.</h2>
+                <p>Try increasing your budget or choosing a nearby locality. Providers must first register and list the relevant service.</p>
+                <a class="btn" href="{{ url_for('create_request') }}">Edit repair request</a>
+            {% endif %}
+        </div>
+        {% endfor %}
+    </div>
+
+    <p style="text-align:center; margin:30px;">
+        <a href="/consumer">← Back to dashboard</a>
+    </p>
+</section>
+{% endblock %}

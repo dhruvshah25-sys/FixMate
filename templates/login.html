@@ -1,0 +1,35 @@
+
+{% extends "base.html" %}
+
+{% block title %}Log In | FixMate{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <a href="/" class="back-link">← Back to home</a>
+        <p class="eyebrow">WELCOME BACK</p>
+        <h1 class="auth-title">Good to see you.</h1>
+        <p class="auth-subtitle">Log in to continue to your FixMate account.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('login') }}">
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email"
+                   placeholder="you@example.com" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password"
+                   placeholder="Your password" required>
+
+            <button type="submit" class="btn auth-submit">Log in →</button>
+        </form>
+
+        <p class="auth-switch">New to FixMate? <a href="/register">Create an account</a></p>
+    </div>
+</section>
+{% endblock %}

@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Provider Bookings | FixMate{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-heading">
+        <p class="eyebrow">YOUR WORK</p>
+        <h1>My Bookings</h1>
+        <p>Review customer requests and update their booking status.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if bookings %}
+        <div class="service-grid">
+            {% for booking in bookings %}
+                <article class="service-card">
+                    <p class="eyebrow">{{ booking.category }}</p>
+                    <h2>{{ booking.consumer_name }}</h2>
+                    <p>{{ booking.description }}</p>
+                    <p><strong>Locality:</strong> {{ booking.service_area }}</p>
+                    <p><strong>Requested date:</strong> {{ booking.preferred_date }}</p>
+                    <p><strong>Amount:</strong> ₹{{ "%.2f"|format(booking.amount) }}</p>
+                    <p><strong>Status:</strong> {{ booking.status }}</p>
+
+                    {% if booking.status == 'CONFIRMED' %}
+                        <form method="POST"
+                              action="{{ url_for('update_booking_status', booking_id=booking.id) }}">
+                            <label for="status-{{ booking.id }}">Update status</label>
+                            <select id="status-{{ booking.id }}" name="status" required>
+                                <option value="">Choose a status</option>
+                                <option value="COMPLETED">Completed</option>
+                                <option value="CANCELLED">Cancelled</option>
+                            </select>
+                            <button class="btn auth-submit" type="submit">Save status</button>
+                        </form>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="auth-card">
+            <h2>No bookings yet</h2>
+            <p>Customer bookings for your services will appear here.</p>
+            <a class="btn" href="{{ url_for('provider_dashboard') }}">Back to dashboard</a>
+        </div>
+    {% endif %}
+
+    <p style="text-align:center; margin:30px;">
+        <a href="{{ url_for('provider_dashboard') }}">← Back to dashboard</a>
+    </p>
+</section>
+{% endblock %}

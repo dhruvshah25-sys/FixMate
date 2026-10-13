@@ -1,0 +1,67 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Bookings | FixMate{% endblock %}
+
+{% block content %}
+<section class="section">
+    <div class="section-heading">
+        <p class="eyebrow">YOUR ACTIVITY</p>
+        <h1>My Bookings</h1>
+        <p>Track the home repair services you've selected.</p>
+    </div>
+
+    {% with messages = get_flashed_messages(with_categories=true) %}
+        {% for category, message in messages %}
+            <div class="flash {{ category }}">{{ message }}</div>
+        {% endfor %}
+    {% endwith %}
+
+    {% if bookings %}
+        <div class="service-grid">
+            {% for booking in bookings %}
+                <article class="service-card">
+                    <p class="eyebrow">{{ booking.category }}</p>
+                    <h2>{{ booking.provider_name }}</h2>
+                    <p>{{ booking.description }}</p>
+                    <p><strong>Locality:</strong> {{ booking.service_area }}</p>
+                    <p><strong>Scheduled date:</strong> {{ booking.preferred_date }}</p>
+                    <p><strong>Amount:</strong> ₹{{ "%.2f"|format(booking.amount) }}</p>
+                    <p><strong>Status:</strong> {{ booking.status }}</p>
+                    {% if booking.review_rating %}
+                        <p><strong>Your rating:</strong> {{ booking.review_rating }} / 5</p>
+                        {% if booking.review_comment %}
+                            <p>{{ booking.review_comment }}</p>
+                        {% endif %}
+                    {% elif booking.status == 'COMPLETED' %}
+                        <form method="POST"
+                              action="{{ url_for('create_review', booking_id=booking.id) }}">
+                            <label for="rating-{{ booking.id }}">Your rating</label>
+                            <select id="rating-{{ booking.id }}" name="rating" required>
+                                <option value="">Choose 1–5</option>
+                                {% for rating in range(1, 6) %}
+                                    <option value="{{ rating }}">{{ rating }} / 5</option>
+                                {% endfor %}
+                            </select>
+                            <label for="comment-{{ booking.id }}">Comment (optional)</label>
+                            <textarea id="comment-{{ booking.id }}" name="comment"
+                                      rows="3" maxlength="1000"></textarea>
+                            <button class="btn auth-submit" type="submit">Submit review</button>
+                        </form>
+                    {% endif %}
+                </article>
+            {% endfor %}
+        </div>
+    {% else %}
+        <div class="auth-card">
+            <h2>No bookings yet</h2>
+            <p>When you select a service provider, your booking will appear here.</p>
+            <a class="btn" href="{{ url_for('create_request') }}">Request a repair →</a>
+        </div>
+    {% endif %}
+
+    <p style="text-align:center; margin:30px;">
+        <a href="{{ url_for('consumer_dashboard') }}">← Back to dashboard</a>
+    </p>
+</section>
+{% endblock %}

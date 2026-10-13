@@ -1,0 +1,71 @@
+
+{% extends "base.html" %}
+
+{% block title %}My Provider Profile | FixMate{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <a href="/provider" class="back-link">← Dashboard</a>
+        <p class="eyebrow">PROFESSIONAL PROFILE</p>
+        <h1 class="auth-title">Set up your services.</h1>
+        <p class="auth-subtitle">Tell customers what you do, where you work, and what you charge.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <section aria-labelledby="provider-reviews-title">
+            <p class="eyebrow">CUSTOMER FEEDBACK</p>
+            <h2 id="provider-reviews-title">Reviews &amp; ratings</h2>
+            {% if rating_summary.review_count %}
+                <p>
+                    <strong>{{ "%.1f"|format(rating_summary.average_rating) }} / 5</strong>
+                    from {{ rating_summary.review_count }}
+                    {{ 'review' if rating_summary.review_count == 1 else 'reviews' }}
+                </p>
+                {% for review in reviews %}
+                    <article class="service-card">
+                        <p class="eyebrow">{{ review.category }}</p>
+                        <p><strong>{{ review.rating }} / 5</strong> · {{ review.consumer_name }}</p>
+                        {% if review.comment %}
+                            <p>{{ review.comment }}</p>
+                        {% else %}
+                            <p>No written comment.</p>
+                        {% endif %}
+                        <p><small>{{ review.created_at }}</small></p>
+                    </article>
+                {% endfor %}
+            {% else %}
+                <p>No reviews yet. Reviews for your completed bookings will appear here.</p>
+            {% endif %}
+        </section>
+
+        <form method="POST">
+            <label for="experience">Years of experience</label>
+            <input id="experience" name="experience" type="number" min="0" max="80" value="{{ profile.experience_years if profile else 0 }}" required>
+
+            <label for="description">About your work</label>
+            <textarea id="description" name="description" rows="3" placeholder="Describe your experience and expertise">{{ profile.description if profile else '' }}</textarea>
+
+            <label for="service_area">Service area / locality</label>
+            <input id="service_area" name="service_area" value="{{ profile.service_area if profile else '' }}" placeholder="e.g. Malad, Goregaon" required>
+
+            <label for="category">Service category</label>
+            <select id="category" name="category" required>
+                <option value="">Choose a service</option>
+                {% for item in categories %}
+                    <option value="{{ item }}">{{ item }}</option>
+                {% endfor %}
+            </select>
+
+            <label for="price">Price per service (₹)</label>
+            <input id="price" name="price" type="number" min="1" step="0.01" placeholder="e.g. 500" required>
+
+            <button class="btn auth-submit" type="submit">Save my profile →</button>
+        </form>
+    </div>
+</section>
+{% endblock %}

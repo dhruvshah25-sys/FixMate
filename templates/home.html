@@ -1,0 +1,130 @@
+
+{% extends "base.html" %}
+
+{% block title %}FixMate | Home Repairs Made Simple{% endblock %}
+
+{% block content %}
+<section class="hero">
+    <div class="hero-content">
+        <div class="eyebrow"><span class="status-dot"></span> YOUR HOME, IN GOOD HANDS</div>
+        <h1>Home repairs.<br>Done <span class="highlight">right.</span></h1>
+        <p class="hero-description">
+            Find trusted professionals for every corner of your home.
+            Compare prices, discover the right expert, and book with confidence.
+        </p>
+
+        <div class="hero-actions">
+            <a href="/register" class="btn">Find a professional <span>→</span></a>
+            <a href="#how-it-works" class="btn btn-outline">How it works</a>
+        </div>
+
+        <div class="trust-row">
+            <div class="avatar-stack">
+                <span>R</span><span>A</span><span>S</span><span>M</span>
+            </div>
+            <p><strong>One simple platform</strong><br>for your home service needs</p>
+        </div>
+    </div>
+
+    <div class="hero-visual">
+        <div class="visual-card main-visual-card">
+            <div class="visual-top">
+                <span class="mini-label">YOUR NEXT REPAIR</span>
+                <span class="available-badge">● Available</span>
+            </div>
+            <div class="repair-icon">🔧</div>
+            <h3>Find the right expert</h3>
+            <p>Match your needs with the right professional.</p>
+            <div class="service-preview">
+                <div class="service-emoji">🚰</div>
+                <div><strong>Plumbing</strong><small>Repairs & installations</small></div>
+                <span class="service-arrow">↗</span>
+            </div>
+            <div class="service-preview">
+                <div class="service-emoji">⚡</div>
+                <div><strong>Electrical</strong><small>Safe, reliable repairs</small></div>
+                <span class="service-arrow">↗</span>
+            </div>
+            <div class="service-preview">
+                <div class="service-emoji">❄️</div>
+                <div><strong>AC repair</strong><small>Cooling made simple</small></div>
+                <span class="service-arrow">↗</span>
+            </div>
+        </div>
+        <div class="floating-note"><span>✓</span> Compare professionals</div>
+        <div class="floating-number"><strong>01</strong><span>Simple<br>steps</span></div>
+    </div>
+</section>
+
+<section class="services section" id="services">
+    <div class="section-heading">
+        <div>
+            <p class="eyebrow">WHAT DO YOU NEED?</p>
+            <h2>Help for every <span class="highlight">home.</span></h2>
+        </div>
+        <p>From quick fixes to essential maintenance, find the service that fits your needs.</p>
+    </div>
+
+    <div class="service-grid">
+        <a href="/register" class="category-card">
+            <div class="category-icon peach">🚰</div>
+            <h3>Plumbing</h3><p>Leaks, taps & pipes</p><span>↗</span>
+        </a>
+        <a href="/register" class="category-card">
+            <div class="category-icon yellow">⚡</div>
+            <h3>Electrical</h3><p>Wiring, lights & fans</p><span>↗</span>
+        </a>
+        <a href="/register" class="category-card">
+            <div class="category-icon blue">❄️</div>
+            <h3>AC Repair</h3><p>Service & maintenance</p><span>↗</span>
+        </a>
+        <a href="/register" class="category-card">
+            <div class="category-icon green">🪚</div>
+            <h3>Carpentry</h3><p>Furniture & fittings</p><span>↗</span>
+        </a>
+        <a href="/register" class="category-card">
+            <div class="category-icon lavender">🧊</div>
+            <h3>Appliances</h3><p>Fridges & machines</p><span>↗</span>
+        </a>
+        <a href="/register" class="category-card">
+            <div class="category-icon pink">🎨</div>
+            <h3>Painting</h3><p>Freshen up your home</p><span>↗</span>
+        </a>
+    </div>
+</section>
+
+<section class="how-section section" id="how-it-works">
+    <div class="section-heading centered">
+        <p class="eyebrow">SIMPLE BY DESIGN</p>
+        <h2>Three steps to a <span class="highlight">fixed home.</span></h2>
+    </div>
+    <div class="steps-grid">
+        <div class="step-card">
+            <span class="step-number">01</span>
+            <div class="step-icon">📝</div>
+            <h3>Describe your issue</h3>
+            <p>Tell us what needs fixing, your budget, and when you're available.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">02</span>
+            <div class="step-icon">🎯</div>
+            <h3>Find your match</h3>
+            <p>Compare suitable professionals based on price, availability, and ratings.</p>
+        </div>
+        <div class="step-card">
+            <span class="step-number">03</span>
+            <div class="step-icon">🏡</div>
+            <h3>Book with confidence</h3>
+            <p>Choose your professional and arrange your home repair.</p>
+        </div>
+    </div>
+</section>
+
+<section class="cta-section">
+    <div>
+        <p class="eyebrow">LET'S GET IT FIXED</p>
+        <h2>Your home deserves<br>the right hands.</h2>
+    </div>
+    <a href="/register" class="btn btn-light">Get started today <span>→</span></a>
+</section>
+{% endblock %}

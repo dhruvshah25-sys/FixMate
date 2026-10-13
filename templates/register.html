@@ -1,0 +1,47 @@
+
+{% extends "base.html" %}
+
+{% block title %}Create Account | FixMate{% endblock %}
+
+{% block content %}
+<section class="auth-section">
+    <div class="auth-card">
+        <a href="/" class="back-link">← Back to home</a>
+        <p class="eyebrow">WELCOME TO FIXMATE</p>
+        <h1 class="auth-title">Create your account.</h1>
+        <p class="auth-subtitle">Join FixMate to find or provide home repair services.</p>
+
+        {% with messages = get_flashed_messages(with_categories=true) %}
+            {% for category, message in messages %}
+                <div class="flash {{ category }}">{{ message }}</div>
+            {% endfor %}
+        {% endwith %}
+
+        <form method="POST" action="{{ url_for('register') }}">
+            <label for="name">Full name</label>
+            <input id="name" name="name" type="text" placeholder="Your full name" required>
+
+            <label for="email">Email address</label>
+            <input id="email" name="email" type="email" placeholder="you@example.com" required>
+
+            <label for="phone">Phone number</label>
+            <input id="phone" name="phone" type="tel" placeholder="Your phone number" required>
+
+            <label for="password">Password</label>
+            <input id="password" name="password" type="password"
+                   placeholder="At least 8 characters" minlength="8" required>
+
+            <label for="role">I want to</label>
+            <select id="role" name="role" required>
+                <option value="">Select account type</option>
+                <option value="CONSUMER">Find home repair services</option>
+                <option value="PROVIDER">Provide home repair services</option>
+            </select>
+
+            <button type="submit" class="btn auth-submit">Create account →</button>
+        </form>
+
+        <p class="auth-switch">Already have an account? <a href="/login">Log in</a></p>
+    </div>
+</section>
+{% endblock %}

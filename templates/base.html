@@ -1,0 +1,45 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>{% block title %}FixMate{% endblock %}</title>
+    <link rel="stylesheet" href="{{ url_for('static', filename='style.css') }}">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+</head>
+<body>
+    <nav class="navbar">
+        <a class="logo" href="/">Fix<span>Mate</span><span class="logo-dot">.</span></a>
+        <div class="nav-links">
+            <a href="#services">Services</a>
+            <a href="#how-it-works">How it works</a>
+            {% if session.get('user_id') %}
+                <a href="{{ url_for('dashboard') }}">{{ session.get('name') or 'Dashboard' }}</a>
+                {% if session.get('role') == 'CONSUMER' %}
+                    <a href="{{ url_for('my_bookings') }}">My bookings</a>
+                    <a href="{{ url_for('create_request') }}">Request a repair</a>
+                {% elif session.get('role') == 'PROVIDER' %}
+                    <a href="{{ url_for('provider_profile') }}">Manage my services</a>
+                    <a href="{{ url_for('provider_bookings') }}">My bookings</a>
+                {% endif %}
+                <a href="{{ url_for('logout') }}">Log out</a>
+            {% else %}
+                <a href="{{ url_for('login') }}" class="nav-login">Log in</a>
+                <a href="{{ url_for('register') }}" class="btn btn-small">Get started</a>
+            {% endif %}
+        </div>
+    </nav>
+
+    <main>
+        {% block content %}{% endblock %}
+    </main>
+
+    <footer>
+        <a class="logo" href="/">Fix<span>Mate</span><span class="logo-dot">.</span></a>
+        <p>Making home repairs simpler, safer, and smarter.</p>
+        <p class="copyright">© 2026 FixMate. College project demonstration.</p>
+    </footer>
+</body>
+</html>
